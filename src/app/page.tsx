@@ -1,7 +1,9 @@
-
+import CoursesCatalog from "@/components/courses-catalog";
 
 export default function Home() {
   return (
-    <div>Hola Mundo</div>
+    <main className="">
+      <CoursesCatalog />
+    </main>
   );
 }
