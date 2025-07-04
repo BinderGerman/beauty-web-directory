@@ -1,14 +1,14 @@
-export interface Course {
+export interface Product {
   id: string
   title: string
   description: string
   instructor: string
   price: number
-  valuations: number
-  number_valuations: number
+  ratings: number
+  number_ratings: number
   image: string
   category: string
-  type: "curso" | "masterclass" | "ebook" | "asesoria"
+  type: string
   duration: string
   lessons: number
   students: number

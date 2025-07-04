@@ -1,9 +1,9 @@
-import CoursesCatalog from "@/components/courses-catalog";
+import ProductsCatalog from "@/components/products-catalog";
 
 export default function Home() {
   return (
     <main className="">
-      <CoursesCatalog />
+      <ProductsCatalog />
     </main>
   );
 }
