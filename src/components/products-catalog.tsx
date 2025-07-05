@@ -21,13 +21,26 @@ export default function ProductsCatalog() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Trae los filtros guardados desde el localStorage.
+  useEffect(() => {
+    const savedFilters = localStorage.getItem("productFilters")
+    if (savedFilters) {
+      setFilters(JSON.parse(savedFilters))
+    }
+  }, [])
+  
+
+  // Obtener los productos desde Google Sheets
   useEffect(() => {
     fetchSheetData()
       .then(setProducts)
       .catch(console.error)
       .finally(() => setLoading(false));
+  }, [])
 
 
+  // Aplica filtros.
+  useEffect(() => {
     const results = products.filter((product) => {
       
       // Filtro por búsqueda
@@ -51,7 +64,12 @@ export default function ProductsCatalog() {
 
     setFilteredProducts(results)
     
-  }, [products]);
+  }, [filters, products]);
+
+  // Guarda filtro en localStorage
+  useEffect(() => {
+    localStorage.setItem("productFilters", JSON.stringify(filters));
+  }, [filters])
 
   const updateFilters = (newFilters: Partial<typeof filters>) => {
     setFilters({...filters, ...newFilters})
