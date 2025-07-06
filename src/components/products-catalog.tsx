@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import {fetchSheetData} from "../data/products";
 import { Product } from "@/types/product";
 import ProductList from "@/components/product-list"
+import ProductFIlters from "./product-filters";
+import { categories } from "@/data/categories"
 
 
 export default function ProductsCatalog() {
@@ -96,7 +98,7 @@ export default function ProductsCatalog() {
         <p className="font-sans text-lg text-foreground">El directorio más completo de cursos y recursos de belleza en español</p>
       </div>
 
-      <div className="relative">
+      <div className="relative mb-6">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
         <Input 
           type="text"
@@ -108,20 +110,26 @@ export default function ProductsCatalog() {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
+
         <div className="lg:w-3/4 order-2 lg:order-1">
-          <div className="flex justify-between items-center my-6">
+          <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-sans font-semibold text-destructive">
               {filteredProducts.length} Resultados encontrados
             </h2>
           </div>
           <ProductList products={filteredProducts} />
         </div>
-        <div className="lg:w-1/4 order-1 lg:order-2"></div>
+
+        <div className="lg:w-1/4 order-1 lg:order-2 ">
+          <ProductFIlters
+            filters={filters}
+            updateFilters={updateFilters}
+            cleanFilters={cleanFilters}
+            categories={categories}
+          />
+        </div>
 
       </div>
-
-      
-
     </div>
   )
 }
