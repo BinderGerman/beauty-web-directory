@@ -30,9 +30,9 @@ export default function ProductFIlters({ filters, updateFilters, cleanFilters, c
   ]
 
   return (
-    <div className="font-sans bg-background p-6 rounded-lg shadow-md sticky top-4">
+    <div className="font-sans bg-accent p-6 rounded-lg shadow-md sticky top-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold text-gray-800">Filtros</h3>
+        <h3 className="text-xl font-bold text-foreground">Filtros</h3>
         <Button
           variant="ghost"
           size="sm"
@@ -120,7 +120,7 @@ export default function ProductFIlters({ filters, updateFilters, cleanFilters, c
         <AccordionItem value="valoracion" className="border-b">
           <AccordionTrigger className="text-lg font-medium">Valoración</AccordionTrigger>
           <AccordionContent>
-            <div className="space-y-2">
+            <div className="space-y-4">
               {[5, 4, 3, 2, 1].map((value) => (
                 <div key={value} className="flex items-center space-x-2">
                   <Checkbox

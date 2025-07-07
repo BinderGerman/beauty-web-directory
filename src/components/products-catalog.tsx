@@ -9,27 +9,53 @@ import ProductList from "@/components/product-list"
 import ProductFIlters from "./product-filters";
 import { categories } from "@/data/categories"
 
+const defaultFilters = {
+  category: "",
+  typeProduct: "",
+  minimumPrice: 0,
+  maximumPrice: 1000,
+  rating: 0,
+  search: "",
+};
 
 export default function ProductsCatalog() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [filters, setFilters] = useState({
-    category: "",
-    typeProduct: "",
-    minimumPrice: 0,
-    maximumPrice: 1000,
-    rating: 0,
-    search: "",
-  })
+  const [filters, setFilters] = useState(defaultFilters)
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Trae los filtros guardados desde el localStorage.
+  // Recupera filtros guardados y pregunta si aplicarlos (sin el campo search)
   useEffect(() => {
+    const savedFilters = localStorage.getItem("productFilters");
+  
+    if (!savedFilters) return; 
+  
+    try {
+      const parsed = JSON.parse(savedFilters);
+  
+      // Validamos que tenga al menos una clave
+      const hasValues = Object.values(parsed).some((val) => val !== "" && val !== 0);
+      if (!hasValues) return;
+  
+      const confirmed = window.confirm("¿Querés aplicar los filtros que usaste la última vez?");
+      if (confirmed) {
+        setFilters((prev) => ({
+          ...prev,
+          ...parsed,
+          search: "", // aseguramos que search siempre arranque vacío
+        }));
+      }
+    } catch (e) {
+      console.error("Error al leer filtros guardados", e);
+    }
+  }, []);
+  
+  /*useEffect(() => {
     const savedFilters = localStorage.getItem("productFilters")
     if (savedFilters) {
       setFilters(JSON.parse(savedFilters))
     }
-  }, [])
+  }, [])*/
   
 
   // Obtener los productos desde Google Sheets
@@ -70,8 +96,20 @@ export default function ProductsCatalog() {
 
   // Guarda filtro en localStorage
   useEffect(() => {
-    localStorage.setItem("productFilters", JSON.stringify(filters));
-  }, [filters])
+    const { search, ...restFilters } = filters;
+  
+    // Comparamos solo los filtros persistibles
+    const hasChanged = Object.entries(restFilters).some(
+      ([key, value]) => value !== (defaultFilters as any)[key]
+    );
+  
+    if (hasChanged) {
+      localStorage.setItem("productFilters", JSON.stringify(restFilters));
+    } else {
+      localStorage.removeItem("productFilters"); // limpia si vuelve al estado base
+    }
+  }, [filters]);
+  
 
   const updateFilters = (newFilters: Partial<typeof filters>) => {
     setFilters({...filters, ...newFilters})
@@ -98,7 +136,7 @@ export default function ProductsCatalog() {
         <p className="font-sans text-lg text-foreground">El directorio más completo de cursos y recursos de belleza en español</p>
       </div>
 
-      <div className="relative mb-6">
+      <div className="relative mb-8">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
         <Input 
           type="text"
