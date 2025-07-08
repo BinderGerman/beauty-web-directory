@@ -3,6 +3,7 @@ import { Inter, Merriweather, Roboto_Mono} from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { Toaster } from "sonner"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -38,7 +39,8 @@ export default function RootLayout({
       >
         <Header />
         {children}
-        <Footer />  
+        <Footer />
+        <Toaster position="bottom-right" richColors />  
       </body>
     </html>
   );

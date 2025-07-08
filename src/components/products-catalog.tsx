@@ -8,6 +8,8 @@ import { Product } from "@/types/product";
 import ProductList from "@/components/product-list"
 import ProductFIlters from "./product-filters";
 import { categories } from "@/data/categories"
+import { toast } from 'sonner';
+ 
 
 const defaultFilters = {
   category: "",
@@ -28,25 +30,32 @@ export default function ProductsCatalog() {
   useEffect(() => {
     const savedFilters = localStorage.getItem("productFilters");
   
-    if (!savedFilters) return; 
+    if (!savedFilters) return;
   
     try {
       const parsed = JSON.parse(savedFilters);
+      const { search = "", ...restFilters } = parsed;
   
-      // Validamos que tenga al menos una clave
-      const hasValues = Object.values(parsed).some((val) => val !== "" && val !== 0);
-      if (!hasValues) return;
+      const hasChanged = Object.entries(restFilters).some(
+        ([key, value]) => value !== (defaultFilters as any)[key]
+      );
   
-      const confirmed = window.confirm("¿Querés aplicar los filtros que usaste la última vez?");
-      if (confirmed) {
-        setFilters((prev) => ({
-          ...prev,
-          ...parsed,
-          search: "", // aseguramos que search siempre arranque vacío
-        }));
-      }
+      if (!hasChanged) return;
+  
+      toast("¿Querés restaurar los filtros anteriores?", {
+        action: {
+          label: "Restaurar",
+          onClick: () => {
+            setFilters((prev) => ({
+              ...defaultFilters,
+              ...restFilters,
+              search: "", // siempre limpio
+            }));
+          },
+        },
+      });
     } catch (e) {
-      console.error("Error al leer filtros guardados", e);
+      console.error("Error parseando filtros guardados", e);
     }
   }, []);
   
@@ -135,7 +144,7 @@ export default function ProductsCatalog() {
         <h1 className="font-serif text-4xl font-bold text-primary">BeautyEdu</h1>
         <p className="font-sans text-lg text-foreground">El directorio más completo de cursos y recursos de belleza en español</p>
       </div>
-
+      
       <div className="relative mb-8">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
         <Input 
