@@ -34,39 +34,43 @@ export default function ProductsCatalog() {
   
     try {
       const parsed = JSON.parse(savedFilters);
+      console.log("Filtros parseados:", parsed);
       const { search = "", ...restFilters } = parsed;
   
       const hasChanged = Object.entries(restFilters).some(
         ([key, value]) => value !== (defaultFilters as any)[key]
       );
-  
+      console.log("¿Han cambiado los filtros?", hasChanged);
       if (!hasChanged) return;
   
-      toast("¿Querés restaurar los filtros anteriores?", {
-        action: {
-          label: "Restaurar",
-          onClick: () => {
-            setFilters((prev) => ({
-              ...defaultFilters,
-              ...restFilters,
-              search: "", // siempre limpio
-            }));
+      requestAnimationFrame(() => {
+        toast("¿Querés restaurar los filtros anteriores?", {
+          action: {
+            label: "Restaurar",
+            onClick: () => {
+              setFilters((prev) => ({
+                ...defaultFilters,
+                ...restFilters,
+                search: "",
+              }));
+            },
           },
-        },
-      });
+          cancel: {
+            label: "No",
+            onClick: () => {
+              // Opcional: limpiar localStorage si rechaza
+              localStorage.removeItem("productFilters");
+            },
+          },
+          duration: 10000, // 10 segundos para dar tiempo a decidir
+          className: 'bg.primary border border-border',
+        });
+      })
     } catch (e) {
       console.error("Error parseando filtros guardados", e);
     }
   }, []);
   
-  /*useEffect(() => {
-    const savedFilters = localStorage.getItem("productFilters")
-    if (savedFilters) {
-      setFilters(JSON.parse(savedFilters))
-    }
-  }, [])*/
-  
-
   // Obtener los productos desde Google Sheets
   useEffect(() => {
     fetchSheetData()
