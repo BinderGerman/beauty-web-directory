@@ -14,14 +14,14 @@ export default function ProductList({ products }: ProductsListProps) {
   if (products.length === 0) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-xl font-medium text-gray-600">No se encontraron cursos con los filtros seleccionados</h3>
-        <p className="mt-2 text-gray-500">Intenta ajustar los filtros para ver más resultados</p>
+        <h3 className="font-serif text-xl font-medium text-foreground">No se encontraron cursos con los filtros seleccionados</h3>
+        <p className="font-sans mt-2 text-foreground">Intenta ajustar los filtros para ver más resultados</p>
       </div>
     )
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="font-sans grid grid-cols-1 md:grid-cols-2 gap-6">
       {products.map((product) => (
         <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
           <div className="relative h-48">
@@ -48,13 +48,13 @@ export default function ProductList({ products }: ProductsListProps) {
             </Badge>
           </div>
           <CardHeader>
-            <div className="flex justify-between items-start">
+            <div className="font-sans flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-bold">{product.title}</h3>
-                <p className="text-sm text-gray-500">{product.instructor}</p>
+                <h3 className="font-serif text-lg font-bold">{product.title}</h3>
+                <p className="text-sm text-foreground">{product.instructor}</p>
               </div>
-              <div className="text-lg font-bold text-rose-600">
-                {product.price === 0 ? "Gratis" : `€${product.price.toFixed(2)}`}
+              <div className="text-lg font-bold text-destructive">
+                {product.price === 0 ? "Gratis" : `U$S ${product.price.toFixed(2)}`}
               </div>
             </div>
             <div className="flex items-center mt-1">
@@ -63,15 +63,15 @@ export default function ProductList({ products }: ProductsListProps) {
                 .map((_, i) => (
                   <Star
                     key={i}
-                    className={`h-4 w-4 ${i < product.ratings ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
+                    className={`h-4 w-4 ${i < product.ratings ? "fill-yellow-400 text-yellow-400" : "text-muted"}`}
                   />
                 ))}
-              <span className="ml-1 text-sm text-gray-600">({product.number_ratings})</span>
+              <span className="ml-1 text-sm text-muted">({product.number_ratings})</span>
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-600 line-clamp-2">{product.description}</p>
-            <div className="flex items-center gap-4 mt-4 text-sm text-gray-500">
+            <p className="text-foreground line-clamp-2">{product.description}</p>
+            <div className="flex items-center gap-4 mt-4 text-sm text-foreground">
               <div className="flex items-center">
                 <Clock className="h-4 w-4 mr-1" />
                 {product.duration}
@@ -87,8 +87,8 @@ export default function ProductList({ products }: ProductsListProps) {
             </div>
           </CardContent>
           <CardFooter>
-            <Link href={`/curso/${product.id}`} className="w-full">
-              <Button className="w-full bg-rose-600 hover:bg-rose-700">Ver Detalles</Button>
+            <Link href={`/product/${product.id}`} className="w-full">
+              <Button className="w-full bg-destructive hover:bg-primary">Ver Detalles</Button>
             </Link>
           </CardFooter>
         </Card>

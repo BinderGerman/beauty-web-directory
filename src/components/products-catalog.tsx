@@ -9,6 +9,7 @@ import ProductList from "@/components/product-list"
 import ProductFIlters from "./product-filters";
 import { categories } from "@/data/categories"
 import { toast } from 'sonner';
+//import { GameModal } from "./game-modal";
  
 
 const defaultFilters = {
@@ -58,7 +59,7 @@ export default function ProductsCatalog() {
           cancel: {
             label: "No",
             onClick: () => {
-              // Opcional: limpiar localStorage si rechaza
+              // Limpiar localStorage si rechaza
               localStorage.removeItem("productFilters");
             },
           },
@@ -147,6 +148,8 @@ export default function ProductsCatalog() {
       <div className="text-center mb-8">
         <h1 className="font-serif text-4xl font-bold text-primary">BeautyEdu</h1>
         <p className="font-sans text-lg text-foreground">El directorio más completo de cursos y recursos de belleza en español</p>
+        
+       
       </div>
       
       <div className="relative mb-8">
