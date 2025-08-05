@@ -1,16 +1,22 @@
-
-import { Product } from "@/types/product";
-import NotFound from "@/app/not-found";
-import { fetchSheetData } from "@/data/products"
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, BookOpen, Clock, ShoppingCart, Star, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+//Types and functions
+import { Product } from "@/types/product";
+import { fetchSheetData } from "@/data/products"
+
+//Components
+import NotFound from "@/app/not-found";
+import MarketingWheelButton from "@/components/marketing-wheel-button";
+
+//UI
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ArrowLeft, Badge, BookOpen, CheckCircle, Clock, Star, Users } from "lucide-react";
+
 
 interface ProductPageProps {
   params: { id: string }
 }
-
 
 export default async function ProductPage({ params }: ProductPageProps) {
   
@@ -22,7 +28,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const {
-    id,
     title,
     description,
     instructor,
@@ -30,12 +35,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
     ratings,
     number_ratings,
     image,
-    category,
-    type,
     duration,
     lessons,
     students,
-    outstanding,
   } = product
 
   // Contenido del curso (simulado)
@@ -149,12 +151,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   </div>
                 </div>
 
-                <Button
-                  className="w-full bg-gradient-to-r from-chart-4 to-chart-5 hover:from-ring hover:to-chart-1 text-primary-foreground py-3 text-lg font-semibold shadow-lg transform transition hover:scale-105"
-                >
-                  <ShoppingCart className="mr-2 h-5 w-5" />🎯 Comprá con descuento!
-                </Button>
-
+                <MarketingWheelButton
+                  originalPrice={price}
+                  currency="USD"
+                  affiliateLink="https://www.google.com"
+                  discountLinks={{
+                    '10': 'https://www.google.com',
+                  }}
+                />
+              
                 {/* Hasta acá componente interactivo */}
 
                 <div className="font-sans text-sm text-foreground mt-6">
@@ -169,7 +174,86 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </section>
-      <h2>Página de producto</h2>
+      
+      {/* Contenido del curso */}
+      <section className="bg-gray-50 py-12">
+        <div className="container mx-auto px-4">
+          <Tabs defaultValue="contenido" className="w-full">
+            <TabsList className="mb-6">
+              <TabsTrigger value="contenido">Contenido del curso</TabsTrigger>
+              <TabsTrigger value="requisitos">Requisitos</TabsTrigger>
+              <TabsTrigger value="para-quien">¿Para quién es?</TabsTrigger>
+              <TabsTrigger value="reseñas">Reseñas</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="contenido">
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-4">Contenido del curso</h2>
+                <p className="text-gray-600 mb-6">
+                  {lessons} lecciones • {duration} de contenido total
+                </p>
+
+                <div className="space-y-4">
+                  {content.map((leccion, index) => (
+                    <div key={index} className="border-b pb-4 last:border-0">
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-start">
+                          <div className="mr-3 mt-1">
+                            <BookOpen className="h-5 w-5 text-gray-500" />
+                          </div>
+                          <div>
+                            <h3 className="font-medium">{leccion.titulo}</h3>
+                            <p className="text-sm text-gray-600">{leccion.duracion}</p>
+                          </div>
+                        </div>
+                        {leccion.gratis && (
+                          <Badge className="text-green-600 border-green-600">
+                            Gratis
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="requisitos">
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-4">Requisitos</h2>
+                <ul className="space-y-2">
+                  {requeriments.map((requeriment, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-rose-600 mr-2 shrink-0 mt-0.5" />
+                      <span>{requeriment}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="para-quien">
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                <h2 className="text-xl font-semibold mb-4">¿Para quién es este curso?</h2>
+                <ul className="space-y-2">
+                  {forWhom.map((person, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-rose-600 mr-2 shrink-0 mt-0.5" />
+                      <span>{person}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="reseñas">
+              <div className="bg-white rounded-lg p-6 shadow-sm">
+                {/* <ReseñasCurso cursoId={params.id} /> */}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
     </main>
   )
 }

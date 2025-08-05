@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="mt-16 py-8 border-t border-line-light">
@@ -9,28 +11,28 @@ export default function Footer() {
         <div>
           <h4 className="text-primary text-lg font-serif font-semibold mb-4">Enlaces rápidos</h4>
           <ul className="space-y-2">
-            <li><a href="/courses" className="text-muted-foreground">Todos los Cursos</a></li>
-            <li><a href="/categories" className="text-muted-foreground">Categorías</a></li>
-            <li><a href="/featured" className="text-muted-foreground">Cursos Destacados</a></li>
-            <li><a href="/new" className="text-muted-foreground">Nuevas Adiciones</a></li>
+            <li><Link href="/courses" className="text-muted-foreground">Todos los Cursos</Link></li>
+            <li><Link href="/categories" className="text-muted-foreground">Categorías</Link></li>
+            <li><Link href="/featured" className="text-muted-foreground">Cursos Destacados</Link></li>
+            <li><Link href="/new" className="text-muted-foreground">Nuevas Adiciones</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-primary text-lg font-serif font-semibold mb-4">Categorías</h4>
           <ul className="space-y-2">
-            <li><a href="/categories/nails" className="text-muted-foreground">Arte de Uñas y Diseño</a></li>
-            <li><a href="/categories/makeup" className="text-muted-foreground">Maquillaje</a></li>
-            <li><a href="/categories/skincare" className="text-muted-foreground">Cuidado de la Piel</a></li>
-            <li><a href="/categories/hair" className="text-muted-foreground">Estilismo de Cabello</a></li>
+            <li><Link href="/categories/nails" className="text-muted-foreground">Arte de Uñas y Diseño</Link></li>
+            <li><Link href="/categories/makeup" className="text-muted-foreground">Maquillaje</Link></li>
+            <li><Link href="/categories/skincare" className="text-muted-foreground">Cuidado de la Piel</Link></li>
+            <li><Link href="/categories/hair" className="text-muted-foreground">Estilismo de Cabello</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-primary text-lg font-serif font-semibold mb-4">Contáctanos</h4>
           <ul className="space-y-2">
-            <li><a href="/contact" className="text-muted-foreground">Contacto</a></li>
-            <li><a href="/about" className="text-muted-foreground">Acerca de</a></li>
-            <li><a href="/privacy" className="text-muted-foreground">Política de Privacidad</a></li>
-            <li><a href="/terms" className="text-muted-foreground">Términos de Servicio</a></li>
+            <li><Link href="/contact" className="text-muted-foreground">Contacto</Link></li>
+            <li><Link href="/about" className="text-muted-foreground">Acerca de</Link></li>
+            <li><Link href="/privacy" className="text-muted-foreground">Política de Privacidad</Link></li>
+            <li><Link href="/terms" className="text-muted-foreground">Términos de Servicio</Link></li>
           </ul>
         </div>
       </div>

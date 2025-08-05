@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather, Roboto_Mono} from "next/font/google";
 import "./globals.css";
+import { Inter, Merriweather, Roboto_Mono} from "next/font/google";
+
+//Components
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+
+//UI
 import { Toaster } from "sonner"
 
 const inter = Inter({

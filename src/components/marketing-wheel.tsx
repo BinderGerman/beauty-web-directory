@@ -2,9 +2,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Gift, Sparkles, ExternalLink } from 'lucide-react';
 
-const MarketingWheel = ({
+export default function MarketingWheel({
   discounts = [25], // descuentos posibles
-  discountLinks = {}, // mapping: { 25: 'url1', 50: 'url2' }
+  discountLinks = {} as Record<string, string>, // mapping: { 25: 'url1', 50: 'url2' }
   affiliateLink = 'https://hotmart.com/affiliate-link', // fallback
   brandColor = '#FF6B6B',
   title = '¡Gira y Gana tu Descuento!',
@@ -12,7 +12,7 @@ const MarketingWheel = ({
   segments = null,
   originalPrice = 197,
   currency = 'USD'
-}) => {
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [hasWon, setHasWon] = useState(false);
@@ -194,33 +194,33 @@ const MarketingWheel = ({
     : affiliateLink;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full text-center">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
+    <div className="flex flex-col items-center justify-center w-full">
+      <div className="bg-white rounded-2xl shadow-2xl p-6 w-full text-center">
+        <div className="mb-4">
+          <h1 className="text-xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
             <Sparkles className="text-yellow-500" />
             {title}
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm">
             {hasWon ? '¡Felicitaciones!' : 'Haz clic en "Girar" para descubrir tu descuento'}
           </p>
         </div>
 
-        <div className="mb-6">
+        <div className="mb-4 flex justify-center">
           <canvas
             ref={canvasRef}
-            width="400"
-            height="400"
-            className="border-4 border-gray-300 rounded-full shadow-lg mx-auto"
+            width="300"
+            height="300"
+            className="border-4 border-gray-300 rounded-full shadow-lg"
           />
         </div>
 
         {!hasWon && (
-          <div className="mb-6">
+          <div className="mb-4">
             <button
               onClick={spinWheel}
               disabled={isSpinning || alreadyPlayed}
-              className={`px-8 py-4 rounded-full font-bold text-white transition-all duration-300 shadow-lg text-lg ${
+              className={`px-6 py-3 rounded-full font-bold text-white transition-all duration-300 shadow-lg text-base ${
                 isSpinning || alreadyPlayed
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 transform hover:scale-105'
@@ -232,29 +232,29 @@ const MarketingWheel = ({
         )}
 
         {hasWon && (
-          <div className="space-y-4">
-            <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-6 rounded-lg">
+          <div className="space-y-3">
+            <div className="bg-gradient-to-r from-green-400 to-green-600 text-white p-4 rounded-lg">
               <div className="flex items-center justify-center gap-2 mb-2">
-                <Gift className="w-6 h-6" />
-                <span className="text-lg font-bold">
+                <Gift className="w-5 h-5" />
+                <span className="text-base font-bold">
                   ¡Ganaste {winningDiscount}% de descuento!
                 </span>
               </div>
 
-              <div className="mt-4 space-y-2">
-                <div className="flex justify-center items-center gap-4">
-                  <span className="text-sm opacity-80">Precio normal:</span>
-                  <span className="text-lg line-through opacity-80">
+              <div className="mt-3 space-y-1">
+                <div className="flex justify-center items-center gap-3">
+                  <span className="text-xs opacity-80">Precio normal:</span>
+                  <span className="text-sm line-through opacity-80">
                     {formatPrice(originalPrice)}
                   </span>
                 </div>
-                <div className="flex justify-center items-center gap-4">
-                  <span className="text-sm opacity-80">Tu precio:</span>
-                  <span className="text-2xl font-bold">
+                <div className="flex justify-center items-center gap-3">
+                  <span className="text-xs opacity-80">Tu precio:</span>
+                  <span className="text-lg font-bold">
                     {formatPrice(getDiscountedPrice(winningDiscount ?? 0))}
                   </span>
                 </div>
-                <div className="text-sm opacity-90">
+                <div className="text-xs opacity-90">
                   Ahorro: {formatPrice(originalPrice - getDiscountedPrice(winningDiscount ?? 0))}
                 </div>
               </div>
@@ -265,10 +265,10 @@ const MarketingWheel = ({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 
-                         text-white px-8 py-4 rounded-lg font-bold hover:from-blue-600 hover:to-purple-700 
-                         transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg"
+                         text-white px-6 py-3 rounded-lg font-bold hover:from-blue-600 hover:to-purple-700 
+                         transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-base"
             >
-              <ExternalLink className="w-5 h-5" />
+              <ExternalLink className="w-4 h-4" />
               {buttonText}
             </a>
           </div>
@@ -277,5 +277,3 @@ const MarketingWheel = ({
     </div>
   );
 };
-
-export default MarketingWheel;
